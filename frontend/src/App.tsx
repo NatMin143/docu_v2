@@ -7,8 +7,32 @@ import HomePage from "@/components/features/Homepage";
 import { DocumentScanner } from "@/components/features/DocumentScanner";
 import TextExtractor from "@/components/features/TextExtractor";
 import BGRemover from "@/components/features/BGRemover";
+import { LoadingModal } from "./components/LoadingModal";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 
 const Layout = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/');
+      } catch (error) {
+        console.error("Error starting the backend", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetch();
+  }, [])
+
+  if (loading) return <LoadingModal isOpen message="Starting the backend..." />;
+
+  
+
   return (
     <SidebarProvider>
       <AppSideBar />
@@ -28,6 +52,8 @@ const Layout = () => {
 };
 
 const App = () => {
+
+
   return (
     <Router>
       <Routes>

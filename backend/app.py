@@ -9,6 +9,7 @@ import numpy as np
 import io
 from utils import biggestContour, reorder, drawRectangle
 from cvzone.SelfiSegmentationModule import SelfiSegmentation
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -134,6 +135,12 @@ def scanImg(image, scale=0.5):
     except Exception as e:
         print(f"Error: {e}")
         return None
+    
+@app.route('/', methods=['GET'])
+def index():
+    time.sleep(5)
+    return "Hello"
+
 
 @app.route('/scanner', methods=['POST'])
 def scanner():
